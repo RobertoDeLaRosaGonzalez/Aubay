@@ -1,0 +1,43 @@
+version: '3'
+services:
+  db-spaceships:
+    image: mysql:5.7.23
+    container_name: db-spaceships
+    volumes:
+      - ../data/mysql/datadir:/var/lib/mysql
+      - ./dump.sql:/docker-entrypoint-initdb.d/dump.sql
+      - ../data/mysql/conf:/etc/mysql/mysql.conf.d
+    ports:
+    - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=hfao8ghalhsguwhg
+      - MYSQL_DATABASE=clearing_module
+      - MYSQL_USER=springboot
+      - MYSQL_PASSWORD=m7aLx5aJ4s
+    networks:
+      - icore-network
+
+
+  spaceships:
+    build: 
+        context: .
+        dockerfile: Dockerfile
+    container_name: spaceships
+    user: "1000:1000"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+        - "8080:8080"
+    depends_on: 
+        - db-spaceships
+    volumes:
+        - ./:/app
+    networks: 
+      - icore-network
+    
+
+networks: 
+    icore-network:
+        external: 
+            name: icore-network
+ 
