@@ -1,15 +1,18 @@
 FROM eclipse-temurin:21-jdk
 
-#COPY --chown=1000:1000 ./ ./
-
-#USER www-data
+RUN adduser --disabled-password --gecos '' appuser && \
+    adduser appuser sudo && \
+    echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
 WORKDIR /app
 
 COPY .mvn/ .mvn
 COPY mvnw pom.xml ./
-RUN ./mvnw dependency:go-offline
-
 COPY src ./src
+RUN chown -R appuser:appuser /app   # Cambia el propietario y grupo de los archivos copiados
+
+USER appuser
+
+RUN ./mvnw dependency:go-offline
 
 CMD ["./mvnw", "spring-boot:run"]

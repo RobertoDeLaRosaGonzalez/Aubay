@@ -1,7 +1,7 @@
 version: '3'
 services:
   db-spaceships:
-    image: mysql:5.7.23
+    image: mysql:8.1
     container_name: db-spaceships
     volumes:
       - ../data/mysql/datadir:/var/lib/mysql
