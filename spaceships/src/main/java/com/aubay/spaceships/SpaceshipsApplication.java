@@ -15,7 +15,8 @@ public class SpaceshipsApplication {
 
 	@RequestMapping("/")
 	public String home() {
-		return "Hello World!";
+		System.out.println("Holaaaaaaa");
+		return "Hello World2!";
 	}
 	public static void main(String[] args) {
 		SpringApplication.run(SpaceshipsApplication.class, args);

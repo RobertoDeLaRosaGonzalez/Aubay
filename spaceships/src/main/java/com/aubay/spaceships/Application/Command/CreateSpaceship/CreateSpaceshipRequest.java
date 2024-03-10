@@ -1,8 +1,8 @@
 package com.aubay.spaceships.Application.Command.CreateSpaceship;
 
 public class CreateSpaceshipRequest {
+    
     String name;
-
     String description;
 
     public String getName() {

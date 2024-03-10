@@ -1,5 +1,6 @@
 package com.aubay.spaceships.Application.Command.CreateSpaceship;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.aubay.spaceships.Domain.Spaceship;
@@ -13,9 +14,12 @@ public class CreateSpaceship {
         this.spaceshipRepository = spaceshipRepository;
     }
 
-    public void handle(CreateSpaceshipRequest createSpaceshipRequest) {
+    public CreateSpaceshipResponse handle(CreateSpaceshipRequest createSpaceshipRequest) {
         Spaceship spaceship = new Spaceship(createSpaceshipRequest.getName(), createSpaceshipRequest.getDescription());
-        this.spaceshipRepository.save(spaceship);
+        spaceship = this.spaceshipRepository.save(spaceship);
+        CreateSpaceshipResponse createSpaceshipResponse = new CreateSpaceshipResponse(spaceship);
+        
+        return createSpaceshipResponse;
     }
 
 }
