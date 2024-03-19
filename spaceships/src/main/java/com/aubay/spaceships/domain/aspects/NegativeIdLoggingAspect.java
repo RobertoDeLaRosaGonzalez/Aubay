@@ -16,9 +16,9 @@ public class NegativeIdLoggingAspect {
     @Before("execution(* com.aubay.spaceships.application.command.getspaceship.GetSpaceship.handle(..)) && args(getSpaceshipRequest)")
     public void logNegativeId(GetSpaceshipRequest getSpaceshipRequest) {
         if (getSpaceshipRequest.getId() < 0) {
-        	System.out.println("error error");
             logger.warn("Error, you can't ask for a spaceship with a negative ID: {}", getSpaceshipRequest.getId());
         }
     }
+    
 }
 
