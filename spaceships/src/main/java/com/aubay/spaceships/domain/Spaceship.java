@@ -12,7 +12,9 @@ import jakarta.persistence.Table;
 @Table(name = "spaceship")
 public class Spaceship implements Serializable {
 
-    @Id
+    private static final long serialVersionUID = -4736917129237666101L;
+
+	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
