@@ -9,10 +9,11 @@ WORKDIR /app
 COPY .mvn/ .mvn
 COPY mvnw pom.xml ./
 COPY src ./src
-RUN chown -R appuser:appuser /app   # Cambia el propietario y grupo de los archivos copiados
+RUN chown -R appuser:appuser /app
 
 USER appuser
 
 RUN ./mvnw dependency:go-offline
 
 CMD ["./mvnw", "spring-boot:run"]
+#CMD ["./mvnw", "test"]

@@ -22,7 +22,7 @@ public class Spaceship implements Serializable {
 
     private String description;
 
-    public Long getId() {
+	public Long getId() {
         return id;
     }
 
@@ -47,5 +47,10 @@ public class Spaceship implements Serializable {
     	this.name = name;
     	this.description = description;
     }
+    
+    @Override
+	public String toString() {
+		return "Spaceship [id=" + id + ", name=" + name + ", description=" + description + "]";
+	}
 
 }
