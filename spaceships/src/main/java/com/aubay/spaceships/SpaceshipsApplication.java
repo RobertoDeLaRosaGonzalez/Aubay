@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 @SpringBootApplication
 @RestController
-@EntityScan("com.aubay.spaceships.Domain")
-@EnableJpaRepositories("com.aubay.spaceships.Domain")
+@EntityScan("com.aubay.spaceships.domain")
+@EnableJpaRepositories("com.aubay.spaceships.domain")
 public class SpaceshipsApplication {
 
 	@RequestMapping("/")
