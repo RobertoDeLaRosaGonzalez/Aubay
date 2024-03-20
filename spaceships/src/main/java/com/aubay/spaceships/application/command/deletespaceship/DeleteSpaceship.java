@@ -14,7 +14,6 @@ public class DeleteSpaceship {
 
     public void handle(DeleteSpaceshipRequest deleteSpaceshipRequest) {
         this.spaceshipRepository.deleteById(deleteSpaceshipRequest.getId());
-        System.out.println("borrando");
     }
 
 }

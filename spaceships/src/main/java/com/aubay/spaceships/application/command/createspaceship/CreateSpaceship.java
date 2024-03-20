@@ -1,9 +1,12 @@
 package com.aubay.spaceships.application.command.createspaceship;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.aubay.spaceships.domain.Spaceship;
 import com.aubay.spaceships.domain.SpaceshipRepositoryInterface;
+import com.aubay.spaceships.domain.exceptions.SpaceshipAlreadyExistsException;
 
 public class CreateSpaceship {
     @Autowired
@@ -14,9 +17,16 @@ public class CreateSpaceship {
     }
 
     public CreateSpaceshipResponse handle(CreateSpaceshipRequest createSpaceshipRequest) {
-        Spaceship spaceship = new Spaceship(createSpaceshipRequest.getName(), createSpaceshipRequest.getDescription());
-        spaceship = this.spaceshipRepository.save(spaceship);
-        CreateSpaceshipResponse createSpaceshipResponse = new CreateSpaceshipResponse(spaceship);
+    	
+    	Optional<Spaceship> spaceship = this.spaceshipRepository.findByName(createSpaceshipRequest.getName());
+        if(spaceship.isPresent())
+        {
+        	throw new SpaceshipAlreadyExistsException("A Spaceship with name: " + createSpaceshipRequest.getName() + " already exists.");
+        }
+        
+        Spaceship newSpaceship = new Spaceship(createSpaceshipRequest.getName(), createSpaceshipRequest.getDescription());
+        newSpaceship = this.spaceshipRepository.save(newSpaceship);
+        CreateSpaceshipResponse createSpaceshipResponse = new CreateSpaceshipResponse(newSpaceship);
         
         return createSpaceshipResponse;
     }

@@ -1,7 +1,5 @@
 package com.aubay.spaceships.infrastructure.controller.api;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
@@ -15,7 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.aubay.spaceships.application.command.getspaceship.GetSpaceship;
 import com.aubay.spaceships.application.command.getspaceship.GetSpaceshipContainingNameRequest;
 import com.aubay.spaceships.application.command.getspaceship.GetSpaceshipRequest;
+import com.aubay.spaceships.application.command.getspaceship.GetSpaceshipResponse;
 import com.aubay.spaceships.application.command.getspaceship.GetSpaceshipsRequest;
+import com.aubay.spaceships.application.command.getspaceship.GetSpaceshipsResponse;
 import com.aubay.spaceships.domain.Spaceship;
 import com.aubay.spaceships.domain.SpaceshipRepositoryInterface;
 
@@ -29,13 +29,7 @@ public class GetSpaceshipController {
     public ResponseEntity<?> getSpaceship(@PathVariable("spaceshipId") Long spaceshipId) {
         GetSpaceshipRequest getSpaceshipRequest = new GetSpaceshipRequest(spaceshipId);
         GetSpaceship getSpaceship = new GetSpaceship(spaceshipRepositoryInterface);
-        Spaceship spaceship = getSpaceship.handle(getSpaceshipRequest);
-        /*if (spaceship.isPresent()){
-            JSONObject json = new JSONObject(spaceship);
-            return new ResponseEntity<JSONObject>(json, HttpStatus.OK);
-        }*/
-        System.out.println("buscando spaceship");
-
+        GetSpaceshipResponse spaceship = getSpaceship.handle(getSpaceshipRequest);
         return new ResponseEntity<>(spaceship, HttpStatus.OK);
     }
     
@@ -44,14 +38,8 @@ public class GetSpaceshipController {
     public ResponseEntity<?> getSpaceship(@PathVariable("name") String name) {
     	GetSpaceshipContainingNameRequest getSpaceshipContainingNameRequest = new GetSpaceshipContainingNameRequest(name);
         GetSpaceship getSpaceship = new GetSpaceship(spaceshipRepositoryInterface);
-        List<Spaceship> spaceship = getSpaceship.handleByName(getSpaceshipContainingNameRequest);
-        /*if (spaceship.isPresent()){
-            JSONObject json = new JSONObject(spaceship);
-            return new ResponseEntity<JSONObject>(json, HttpStatus.OK);
-        }*/
-        System.out.println("buscando spaceship que contenga");
-
-        return new ResponseEntity<>(spaceship, HttpStatus.OK);
+        GetSpaceshipsResponse spaceships = getSpaceship.handleByName(getSpaceshipContainingNameRequest);
+        return new ResponseEntity<>(spaceships, HttpStatus.OK);
     }
 
     @Cacheable(value = "spaceships")
@@ -60,7 +48,6 @@ public class GetSpaceshipController {
         GetSpaceshipsRequest getSpaceshipsRequest = new GetSpaceshipsRequest(page, size);
         GetSpaceship getSpaceship = new GetSpaceship(spaceshipRepositoryInterface);
         Page<Spaceship> spaceships = getSpaceship.handle(getSpaceshipsRequest);
-        System.out.println("buscando todos spaceships");
         return new ResponseEntity<>(spaceships, HttpStatus.OK);
     }
 }

@@ -12,5 +12,6 @@ import org.springframework.stereotype.Repository;
 public interface SpaceshipRepositoryInterface extends CrudRepository<Spaceship, Long> {
     List<Spaceship> findByNameContaining(String name);
     Optional<Spaceship> findById(Long id);
+    Optional<Spaceship> findByName(String name);
     Page<Spaceship> findAll(Pageable pageable);
 }

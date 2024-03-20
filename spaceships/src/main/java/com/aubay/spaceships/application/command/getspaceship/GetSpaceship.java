@@ -20,13 +20,13 @@ public class GetSpaceship {
         this.spaceshipRepository = spaceshipRepository;
     }
 
-    public Spaceship handle(GetSpaceshipRequest getSpaceshipRequest) {
+    public GetSpaceshipResponse handle(GetSpaceshipRequest getSpaceshipRequest) {
         Optional<Spaceship> spaceship = this.spaceshipRepository.findById(getSpaceshipRequest.getId());
         if(!spaceship.isPresent())
         {
         	throw new NoSuchSpaceshipFoundException("There is no spaceship with the id: " + getSpaceshipRequest.getId());
         }
-        return spaceship.get();
+        return new GetSpaceshipResponse(spaceship.get());
     }
 
     public Page<Spaceship> handle(GetSpaceshipsRequest getSpaceshipsRequest) {
@@ -35,8 +35,8 @@ public class GetSpaceship {
         return spaceships;
     }
 
-    public List<Spaceship> handleByName(GetSpaceshipContainingNameRequest getSpaceshipContainingNameRequest) {
+    public GetSpaceshipsResponse handleByName(GetSpaceshipContainingNameRequest getSpaceshipContainingNameRequest) {
         List<Spaceship> spaceships = this.spaceshipRepository.findByNameContaining(getSpaceshipContainingNameRequest.getName());
-        return spaceships;
+        return new GetSpaceshipsResponse(spaceships);
     }
 }

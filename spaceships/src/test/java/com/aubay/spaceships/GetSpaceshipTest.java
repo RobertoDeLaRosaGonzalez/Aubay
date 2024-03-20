@@ -20,7 +20,9 @@ import org.springframework.data.domain.Pageable;
 import com.aubay.spaceships.application.command.getspaceship.GetSpaceship;
 import com.aubay.spaceships.application.command.getspaceship.GetSpaceshipContainingNameRequest;
 import com.aubay.spaceships.application.command.getspaceship.GetSpaceshipRequest;
+import com.aubay.spaceships.application.command.getspaceship.GetSpaceshipResponse;
 import com.aubay.spaceships.application.command.getspaceship.GetSpaceshipsRequest;
+import com.aubay.spaceships.application.command.getspaceship.GetSpaceshipsResponse;
 import com.aubay.spaceships.domain.Spaceship;
 import com.aubay.spaceships.domain.SpaceshipRepositoryInterface;
 
@@ -42,9 +44,9 @@ public class GetSpaceshipTest {
 
         GetSpaceship getSpaceship = new GetSpaceship(spaceshipRepository);
 
-        Spaceship actualSpaceship = getSpaceship.handle(request);
+        GetSpaceshipResponse actualSpaceship = getSpaceship.handle(request);
 
-        assertEquals(expectedSpaceship, actualSpaceship);
+        assertEquals(expectedSpaceship.getId(), actualSpaceship.getId());
     }
     
     @Test
@@ -69,10 +71,10 @@ public class GetSpaceshipTest {
         String partialName = "Falcon";
         GetSpaceshipContainingNameRequest request = new GetSpaceshipContainingNameRequest(partialName);
 
-        List<Spaceship> actualSpaceships = getSpaceship.handleByName(request);
+        GetSpaceshipsResponse actualSpaceships = getSpaceship.handleByName(request);
 
-        assertEquals(2, actualSpaceships.size());
-        assertTrue(actualSpaceships.stream().allMatch(spaceship -> spaceship.getName().contains(partialName)));
+        assertEquals(2, actualSpaceships.getSpaceshipList().size());
+        assertTrue(actualSpaceships.getSpaceshipList().stream().allMatch(spaceship -> spaceship.getName().contains(partialName)));
     }
 
     @Test
